@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        body, html{
+            @media screen {
+                max-width: 1500px;
+                width: 100%;
+            }
+        }
+         #dialog{
+            border: none;
+            background-color: aquamarine;
+            border-radius: 10px;
+            animation: fade 5s linear forwards;
+        }
+        @keyframes fade{
+            100%{
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+{% if messages %}
+<dialog open id="dialog">
+{% for message in messages %}
+<p style="{{message.tags}}">{{message}}</p>
+<button type="button" onclick="document.getElementById('dialog').close();" id="btn-msg">OK</button>
+</dialog>
+{% endfor %}
+{% endif %}
+<!--  -->
+    <h1>Welcome back {{request.user.username}}</h1>
+    <button onclick="window.location.href='accounts/2fa/';">ACCOUNT SETTINGS</button>
+    <button onclick="window.location.href='register-person';">REGISTRATION</button>
+    <button onclick="window.location.href='registered'" type="button">REGISTERED</button>       
+    <button onclick="window.location.href='manage-account';">MANAGE ACCOUNT</button>
+</body>
+</html>

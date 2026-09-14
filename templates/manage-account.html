@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Management</title>
+    <style>
+        #dialog{
+            border: none;
+            background-color: aquamarine;
+            border-radius: 10px;
+            animation: fade 5s linear forwards;
+        }
+        @keyframes fade{
+            100%{
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    {% if messages %}
+<dialog open id="dialog">
+{% for message in messages %}
+<p style="{{message.tags}}">{{message}}</p>
+<button type="button" onclick="document.getElementById('dialog').close();" id="btn-msg">OK</button>
+</dialog>
+{% endfor %}
+{% endif %}
+    {% if request.user.is_authenticated %}
+    <button style="color: red;" onclick="window.location.href='delete-account'">DELETE ACCOUNT</button>
+    {% else %}
+    <p>Access denied..! You don't have enough privileges to perform this action</p>
+    {% endif %}
+</body>
+</html>

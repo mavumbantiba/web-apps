@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <!-- <link rel="stylesheet" href="{% static 'static/style.css' %}"> -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table,th,td{ 
+            font-family: 'Times New Roman', Times, serif;
+        }
+        th{
+            color: green;
+            text-align: center;
+        }
+        td{
+            color: blue;
+            padding: 5px;
+        }
+          body, html{
+            @media screen {
+                max-width: 1500px;
+                width: 100%;
+            }
+        }
+    </style>
+    </style>
+</head>
+<body>
+    <table border="1" style="border-collapse: collapse;">
+        <thead>
+            <tr>
+                <th>NAME</th>
+                <th>GENDER</th>
+                <th>COUNTRY</th>
+                <th>PHONE</th>
+                <th>EMAIL</th>
+            </tr>
+        </thead>
+        <tbody>
+           {% for person in people %}
+            <tr>
+                <td>{{person.name}}</td>
+                <td>{{person.gender}}</td>
+                <td>{{person.country.name}} ({{person.country.code}}) <img src="{{person.country.flag}}" alt="{{person.country.flag}}" flag></td>
+                <td><a href="tel:{{person.phone}}">{{person.phone}}</a></td>
+                <td><a href="mailto:{{person.email}}">{{person.email}}</a></td>
+            </tr>
+           {% empty %}
+           <h3>No record found. All regsitered will appear here</h3>
+           {% endfor %}
+        </tbody>
+    </table>
+    <br><br><br>
+        <button onclick="history.back()" type="button">Previous</button>
+    <button onclick="history.forward()" type="button">Next</button>
+</body>
+</html>

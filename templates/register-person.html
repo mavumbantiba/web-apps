@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <!-- <link rel="stylesheet" href="{% static 'static/style.css' %}"> -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table,th,td{ 
+            font-family: 'Times New Roman', Times, serif;
+        }
+        th{
+            color: green;
+            text-align: center;
+        }
+        td{
+            color: blue;
+            padding: 5px;
+        }
+        .errorlist{
+            list-style-type: none;
+            color: red;
+            background-color: rgba(0, 200, 10, 0.2);
+
+        }
+        .error{
+            color: red;
+        }
+        .success{
+            color:green
+        }
+        .warning{
+            color: yellow;
+        }
+        #dialog{
+            border: none;
+            background-color: aquamarine;
+            border-radius: 10px;
+            animation: fade 5s linear forwards;
+        }
+        @keyframes fade{
+            100%{
+                display: none;
+            }
+        }
+        button{
+            padding: 10px;
+            border: none;
+            background-color: blue;
+            color: wheat;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+        #registered,#form{
+            border: none;
+            background-color: rgba(128, 125, 125,0.3);
+            border-radius: 10px;
+            width: 100%;
+            max-width: 1000px;
+            padding: 20px;
+        }
+          body, html{
+            @media screen {
+                max-width: 1500px;
+                width: 100%;
+            }
+        }
+    </style>
+    </style>
+</head>
+
+<body>
+    {% csrf_token %}
+    
+{% if messages %}
+<dialog open id="dialog">
+{% for message in messages %}
+<p style="{{message.tags}}">{{message}}</p>
+<button type="button" onclick="document.getElementById('dialog').close();" id="btn-msg">OK</button>
+</dialog>
+{% endfor %}
+{% endif %}
+    <button type="button" popovertarget="registered" popovertargetaction="show">VIEW CUSTOMERS</button>
+    <button type="button" popovertarget="form" popovertargetaction="show">ADD CUSTOMER</button>
+    <button onclick="history.back()" type="button">QUIT</button>
+
+
+   {% if people %}
+    <div id="registered" popover="manual">
+        <table border="1" style="border-collapse: collapse; width: 100%; max-width: 1000px;" >
+        <thead>
+            <tr>
+                <th>NAME</th>
+                <th>GENDER</th>
+                <th>COUNTRY</th>
+                <th>PHONE</th>
+                <th>EMAIL</th>
+            </tr>
+        </thead>
+        <tbody>
+           {% for person in people %}
+            <tr>
+                <td>{{person.name}}</td>
+                <td>{{person.gender}}</td>
+                <td>{{person.country.name}} ({{person.country.code}}) <img src="{{person.country.flag}}" alt="{{person.country.flag}}" flag></td>
+                <td><a href="tel:{{person.phone}}">{{person.phone}}</a></td>
+                <td><a href="mailto:{{person.email}}">{{person.email}}</a></td>
+            </tr>
+           {% empty %}
+           <h3>No record found. All regsitered will appear here</h3>
+           {% endfor %}
+        </tbody>
+    </table>
+    <br><br>
+    <button type="button" popovertarget="registered" popovertargetaction="hide">Quit</button>
+    <button onclick="history.back()" type="button">Previous</button>
+    <button onclick="history.forward()" type="button">Next</button>
+
+
+</div>
+   {% endif %}
+<br><br>
+    <div id="form" popover="auto">
+        <form method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit">Register</button>
+        <button type="button" popovertarget="form" popovertargetaction="hide">Quit</button>
+        <button type="reset">Clear</button>
+
+    </form>
+    </div>
+    
+</body>
+</html>
